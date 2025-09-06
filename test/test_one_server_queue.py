@@ -35,7 +35,7 @@ class TestSimulateOneServerQueue(unittest.TestCase):
         total_past_time = 0.0
         total_customers = 0
 
-        for i in range(n):
+        for _ in range(n):
             
             arrivals, departures, time_past = osq.simulate_one_server_queue(lam, mu, t)
             

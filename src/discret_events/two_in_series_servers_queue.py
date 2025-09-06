@@ -1,7 +1,7 @@
 import math
 import src.random_variable_generator as rvg
 def simulate_two_in_series_servers_queue(lmd : float, mu_1 : float, mu_2 : float, end_time : float):
-    """Simulate a two-in-series-server queue with arrival rate lmdbda, service rate mu_1 for sever 1 and mu_2 
+    """Simulate a two-in-series-server queue with arrival rate lambda, service rate mu_1 for sever 1 and mu_2 
     for server 2, up to time end_time.
 
     Parameters:
