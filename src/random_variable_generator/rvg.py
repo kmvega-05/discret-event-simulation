@@ -80,3 +80,7 @@ def generate_poisson_process(lam : float, t : float):
         arrival_times.append(current_time)
     
     return arrival_times
+
+def generate_next_poisson_time(current_time : float, rate : float):
+    """Generate a new Poisson event time given the current time and the rate."""
+    return current_time + generate_exponential_variable(rate)
