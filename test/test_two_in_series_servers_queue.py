@@ -1,32 +1,31 @@
 import unittest
-import src.discret_events.one_server_queue as osq
+import src.discret_events.two_in_series_servers_queue as twissq
 from src.utils import round_time_list, calculate_average_time_in_system
-class TestSimulateOneServerQueue(unittest.TestCase):
-    def test_basic_simulation(self):
-        print("Testing one-server queue simulation...")
-        lam = 1.0
-        mu = 2.0
-        t = 5.0
 
-        arrivals, departures, time_past = osq.simulate_one_server_queue(lam, mu, t)
+class TestSimulateTwoInSeriesServersQueue(unittest.TestCase):
+    def test_basic_simulation(self):
+        print("Testing two-in-series-servers-queue simulation...")
+        lmd = 1.0
+        mu_1 = 2.0
+        mu_2 = 1.5
+        t = 5.0
         
-        # Verifica que las listas no sean None
-        self.assertIsNotNone(arrivals)
-        self.assertIsNotNone(departures)
+        arrivals, departures, past_time = twissq.simulate_two_in_series_servers_queue(lmd, mu_1, mu_2, t)
+
         self.assertIsInstance(arrivals, list)
         self.assertIsInstance(departures, list)
-        self.assertIsInstance(time_past, float)
-        
-        # Verifica que las llegadas y salidas tengan sentido
+        self.assertIsInstance(past_time, float)
         self.assertGreaterEqual(len(arrivals), len(departures))
-        self.assertGreaterEqual(time_past, 0.0)
-
-        print_one_server_queue_results(arrivals, departures, time_past)
+        self.assertGreaterEqual(past_time, 0.0)
+        
+        print_two_server_queue_results(arrivals, departures, past_time)
+        print("\n")
 
     def test_multipe_simulations(self):
-        print("Testing multiple one-server queue simulations...")
-        lam = 1.0
-        mu = 2.0
+        print("Testing multiple two-in-series-servers-queue simulations...")
+        lmd = 1.0
+        mu_1 = 2.0
+        mu_2 = 1.5
         t = 5.0
 
         n = 1000 # simulations
@@ -37,7 +36,7 @@ class TestSimulateOneServerQueue(unittest.TestCase):
 
         for i in range(n):
             
-            arrivals, departures, time_past = osq.simulate_one_server_queue(lam, mu, t)
+            arrivals, departures, time_past = twissq.simulate_two_in_series_servers_queue(lmd, mu_1, mu_2, t)
             
             # Verifica que las listas no sean None
             self.assertIsNotNone(arrivals)
@@ -55,13 +54,13 @@ class TestSimulateOneServerQueue(unittest.TestCase):
             total_past_time += time_past
 
 
-        print_multiple_one_server_queue_results(total_customers / n, total_avg_time_on_system / n, total_past_time / n , n)
+        print_multiple_two_server_queue_results(total_customers / n, total_avg_time_on_system / n, total_past_time / n , n)
 
 
-def print_one_server_queue_results(arrivals : list, departures : list, time_past : float):
+def print_two_server_queue_results(arrivals : list, departures : list, time_past : float):
     """Print the result of a one server queue event"""
     print("------------------------------------------------------------------------")
-    print("Simulation Results (One-Server-Queue-Event)")
+    print("Simulation Results (Two-In-Series-Servers-Queue-Event)")
     
     print(f"Arrivals({len(arrivals)}): ")
     print(round_time_list(arrivals))
@@ -76,9 +75,9 @@ def print_one_server_queue_results(arrivals : list, departures : list, time_past
 
     print("------------------------------------------------------------------------")
 
-def print_multiple_one_server_queue_results(avg_customers : float , avg_time : float, avg_past_time : float, n : int):
+def print_multiple_two_server_queue_results(avg_customers : float , avg_time : float, avg_past_time : float, n : int):
     print("------------------------------------------------------------------------")
-    print("Multiple Simulations Results (One-Server-Queue-Event)")
+    print("Multiple Simulations Results (Two-In-Series-Servers-Queue-Event)")
     print(f"Total Simulations : {n}")
     print(f"Average customers : {avg_customers:.2f}")
     print(f"Average time on system per customer : {avg_time:.2f}")
@@ -88,4 +87,3 @@ def print_multiple_one_server_queue_results(avg_customers : float , avg_time : f
 
 if __name__ == '__main__':
     unittest.main()
-    
